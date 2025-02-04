@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import "tailwindcss";
+
+/* If you want to add your own default base styles for specific HTML elements,
+ use the @layer directive to add those styles to Tailwind's base layer: */
+
+/* The base layer is for things like reset rules or default styles
+ applied to plain HTML elements. */
+
+@layer base {
+  /* h1, h2 ir taip toliau */
+}
+
+/* Use the components layer for any more complicated classes you want
+  to add to your project that you'd still like to be able to override
+   with utility classes. */
+@layer components {
+  /* pvz
+
+.card {
+    background-color: var(--color-white);
+    border-radius: var(--rounded-lg);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-xl);
+  }
+
+*/
+}
+
+@layer theme {
+}
+
+@layer utilities {
+}
