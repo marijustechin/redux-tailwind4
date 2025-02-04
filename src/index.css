@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap");
 @import "tailwindcss";
 
 /* If you want to add your own default base styles for specific HTML elements,
@@ -8,6 +8,20 @@
  applied to plain HTML elements. */
 
 @layer base {
+  :root {
+    font-family: "Merienda", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  h1 {
+    @apply text-4xl text-center my-4;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold mt-4 mb-2;
+  }
   /* h1, h2 ir taip toliau */
 }
 
@@ -15,6 +29,13 @@
   to add to your project that you'd still like to be able to override
    with utility classes. */
 @layer components {
+  .my-container {
+    @apply max-w-[1280px] mx-auto px-1 md:px-2;
+  }
+
+  .btn-generic {
+    @apply border border-sky-300 rounded-xl py-1 px-2 bg-sky-200 hover:bg-sky-300 cursor-pointer;
+  }
   /* pvz
 
 .card {
@@ -28,6 +49,9 @@
 }
 
 @layer theme {
+  .klases-pavadinimas {
+    @apply text-2xl;
+  }
 }
 
 @layer utilities {
