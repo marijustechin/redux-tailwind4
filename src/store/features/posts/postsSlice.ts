@@ -1,24 +1,26 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
 import { IPost } from "../../../types/PostType";
 import { RootState } from "../../store";
-import { sub } from "date-fns";
+import axios from "axios";
 
-const initialState: IPost[] = [
-  {
-    id: nanoid(),
-    title: "Default post",
-    body: "Lorem ipsum sit dolor",
-    date: sub(new Date(), { hours: 8 }).toISOString(),
-    userId: "",
-    reactions: {
-      thumbsUp: 0,
-      wow: 0,
-      heart: 0,
-      rocket: 0,
-      coffee: 0,
-    },
-  },
-];
+const BASE_URL = "https://jsonplaceholder.typicode.com";
+
+interface IStorePosts {
+  posts: IPost[];
+  status: string;
+  error: string;
+}
+
+const initialState: IStorePosts = {
+  posts: [],
+  status: "idle", // idle | loading | succeeded |
+  error: "",
+};
+
+export const getAllPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  const response = await axios.get(`${BASE_URL}/posts`);
+  return [...response.data];
+});
 
 export const postsSlice = createSlice({
   name: "posts",
@@ -26,7 +28,7 @@ export const postsSlice = createSlice({
   reducers: {
     addPost: {
       reducer(state, action) {
-        state.push(action.payload);
+        state.posts.push(action.payload);
       },
 
       prepare(title: string, body: string, userId: string) {
@@ -50,7 +52,7 @@ export const postsSlice = createSlice({
     },
     addReaction(state, action) {
       const { postId, reaction } = action.payload;
-      const existingPost = state.find((post) => post.id === postId);
+      const existingPost = state.posts.find((post) => post.id === postId);
 
       if (existingPost) {
         existingPost.reactions[reaction]++;
@@ -59,7 +61,7 @@ export const postsSlice = createSlice({
   },
 });
 
-export const selectAllPosts = (state: RootState) => state.posts;
+export const selectAllPosts = (state: RootState) => state.posts.posts;
 
 export const { addPost, addReaction } = postsSlice.actions;
 
