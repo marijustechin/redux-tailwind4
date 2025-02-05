@@ -1,5 +1,5 @@
-import { AddPostForm } from '../components/AddPostForm';
-import { PostsList } from '../components/PostsList';
+import { AddPostForm } from "../components/AddPostForm";
+import { PostsList } from "../components/PostsList";
 
 export const HomePage = () => {
   return (

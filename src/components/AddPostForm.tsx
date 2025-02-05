@@ -2,13 +2,16 @@ import * as z from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AddPostSchema } from "../schemas/AddPostSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../store/features/posts/postsSlice";
-import { nanoid } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
+import { getAllUsers } from "../store/features/users/usersSlice";
 
 export const AddPostForm = () => {
+  const users = useSelector(getAllUsers);
+  // const [userId, setUserId] = useState<string>();
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -18,13 +21,18 @@ export const AddPostForm = () => {
     defaultValues: {
       title: "",
       body: "",
+      userId: "",
     },
   });
 
+  const selectUser = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ));
+
   const onSubmit: SubmitHandler<z.infer<typeof AddPostSchema>> = (formData) => {
-    dispatch(
-      addPost({ id: nanoid(), title: formData.title, body: formData.body })
-    );
+    dispatch(addPost(formData.title, formData.body, formData.userId));
     toast.success("Straipsnis sėkmingai pridėtas!");
   };
 
@@ -69,6 +77,25 @@ export const AddPostForm = () => {
           </div>
           {errors.body && (
             <span className="text-sm text-rose-500">{errors.body.message}</span>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2 p-2 border border-sky-200 rounded-lg">
+            <label className="w-36 text-right" htmlFor="body">
+              Autorius
+            </label>
+            <select className="w-full" id="userId" {...register("userId")}>
+              <option value={" "} disabled>
+                -- Pasirinkite autorių --
+              </option>
+              {selectUser}
+            </select>
+          </div>
+          {errors.userId && (
+            <span className="text-sm text-rose-500">
+              {errors.userId.message}
+            </span>
           )}
         </div>
         <button className="btn-generic">Pridėti</button>
