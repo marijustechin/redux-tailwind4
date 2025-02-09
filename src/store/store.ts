@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import postsSlice from "./features/posts/postsSlice";
-import usersSlice from "./features/users/usersSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import postsSlice from './features/posts/postsSlice';
+import usersSlice from './features/users/usersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +10,5 @@ export const store = configureStore({
 });
 
 export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = ReturnType<AppStore["dispatch"]>;
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = ReturnType<AppStore['dispatch']>;
